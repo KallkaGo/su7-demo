@@ -9,6 +9,7 @@ export default function ThreeContainer() {
     const demand = useInteractStore((state) => state.demand);
     return (
         <>
+            <Leva hidden={location.hash !== "#debug"} collapsed />
             <Canvas
                 frameloop={demand ? "never" : "always"}
                 className="webgl"
@@ -19,12 +20,10 @@ export default function ThreeContainer() {
                     position: [0, 2, 5],
                     far: 500,
                 }}
-                gl={{toneMapping:CineonToneMapping}}
+                gl={{ toneMapping: CineonToneMapping }}
             >
-                {location.hash.includes("debug") ? (
+                {location.hash.includes("debug") && (
                     <Perf position="top-left" />
-                ) : (
-                    <Leva hidden />
                 )}
                 <Suspense fallback={null}>
                     {/* <Sketch /> */}
