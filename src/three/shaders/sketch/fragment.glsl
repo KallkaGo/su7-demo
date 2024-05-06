@@ -44,7 +44,7 @@ void main() {
   // map => map a value between one range to another 
   // alpha = (alpha + 1.) / 2.;
   alpha = map(alpha, -1., 1., 0., 1.);
-  alpha = pow(clamp(alpha - .05, 0., 1.), 13.);
+  alpha = pow(clamp(alpha - .05, 0., 1.), 20.);
   alpha = smoothstep(0., .04, alpha);
   vec3 col = vec3(1.);
   col = colorNoise(newUV * vec2(10., 100.));
