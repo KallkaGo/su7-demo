@@ -11,6 +11,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import {
   Color,
   DoubleSide,
+  LinearFilter,
   LinearMipMapLinearFilter,
   LinearSRGBColorSpace,
   Matrix4,
@@ -325,6 +326,8 @@ const Sketch3 = () => {
 
     floor.material = floorCsmMat;
     floorUniforms.uReflectTexture.value = renderTarget.texture;
+    renderTarget.texture.minFilter = LinearFilter;
+    renderTarget.texture.magFilter = LinearFilter;
     floorUniforms.uReflectMatrix.value = matrix;
 
     modelRef.current.bodyMat = bodyMat;
@@ -368,8 +371,9 @@ const Sketch3 = () => {
   fbo.texture.minFilter = NearestFilter;
   fbo.texture.magFilter = NearestFilter;
 
+  /* The best reflection experience is the screen size. If it is stuck, please reduce the size. */
   const { matrix, renderTarget } = useReflect(modelRef.current.floor!, {
-    resolution: 256,
+    resolution: [innerWidth, innerHeight],
     ignoreObjects: [modelRef.current.floor!, gltf.scene, startRommgltf.scene],
   });
 
@@ -399,6 +403,7 @@ const Sketch3 = () => {
         disableNormalPass
         frameBufferType={UnsignedByteType}
         multisampling={2}
+        enabled={false}
       >
         <Bloom
           luminanceThreshold={0.1}

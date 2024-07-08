@@ -6,7 +6,7 @@ import { useShallow } from "zustand/react/shallow";
 import { PackedMipMapGenerator } from "./csmMipmap/PackedMipMapGenerator";
 
 interface MeshReflectorMaterialConfig {
-  resolution: number;
+  resolution: [number, number];
   ignoreObjects: THREE.Object3D[];
 }
 
@@ -14,7 +14,8 @@ interface MeshReflectorMaterialConfig {
 const useReflect = (parent: Mesh, config: Partial<MeshReflectorMaterialConfig> = {}) => {
 
 
-  const { resolution = 512, ignoreObjects = [] } = config;
+  const { resolution = [512, 512], ignoreObjects = [] } = config;
+  const [width, height] = resolution
 
   const { baseCamera, renderer, scene } = useThree(useShallow((state) => ({
     baseCamera: state.camera,
@@ -28,19 +29,19 @@ const useReflect = (parent: Mesh, config: Partial<MeshReflectorMaterialConfig> =
 
   const cameraRef = useRef(new PerspectiveCamera())
 
-  const renderTarget = useFBO(resolution, resolution, {
+  const renderTarget = useFBO(width, height, {
     type: UnsignedByteType,
   });
 
   const mipMaper = useMemo(() => new PackedMipMapGenerator(), [])
 
-  const renderTargetMipMap = useFBO(resolution, resolution, {
+  const renderTargetMipMap = useFBO(width, height, {
     type: UnsignedByteType
   });
 
 
   const beforeRender = () => {
-
+    if(!parent) return
     const reflectPlane = reflectPlaneRef.current;
     const reflectMatrix = reflectMatrixRef.current;
     const camera = cameraRef.current;
