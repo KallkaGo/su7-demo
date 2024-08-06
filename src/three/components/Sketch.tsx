@@ -403,7 +403,7 @@ const Sketch3 = () => {
         disableNormalPass
         frameBufferType={UnsignedByteType}
         multisampling={2}
-        enabled={false}
+        enabled={true}
       >
         <Bloom
           luminanceThreshold={0.1}
