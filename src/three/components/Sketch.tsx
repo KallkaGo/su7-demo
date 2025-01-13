@@ -52,7 +52,6 @@ const Sketch3 = () => {
   const startRoomAoMap = useTexture("/textures/t_startroom_ao.raw.jpg");
   const floorroughnessMap = useTexture("/textures/t_floor_roughness.webp");
   const floornormalMap = useTexture("/textures/t_floor_normal.webp");
-  // const env = useEnvironment({ files: "/textures/t_env_light.hdr" });
 
   const touch = useInteractStore((state) => state.touch);
 
